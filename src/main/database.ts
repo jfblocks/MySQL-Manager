@@ -59,6 +59,7 @@ export async function getTableData(config: any, table: string, page: number = 1,
   }
 }
 
+
 export async function updateTableRow(config: any, table: string, pk: any, data: any) {
   if (!isSafeName(table)) throw new Error('非法表名');
   const pkKey = Object.keys(pk)[0];
@@ -121,3 +122,4 @@ export async function dropTable(config: any, table: string) {
 }
 
 // 备份、恢复、用户管理、性能监控等高级API同理加异常处理和表名校验
+
