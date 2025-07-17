@@ -9,7 +9,10 @@
 - 描述：测试数据库连接
 - 参数：
   - config: { host, port, user, password, database }
-- 返回：{ success: boolean, message?: string }
+- 返回：
+```json
+{ "success": true, "message": "" }
+```
 
 ---
 
@@ -19,7 +22,10 @@
 - 参数：
   - config: 数据库连接配置
   - sql: string
-- 返回：{ success: boolean, rows?: any[], fields?: any[], message?: string }
+- 返回：
+```json
+{ "success": true, "rows": [], "fields": [], "message": "" }
+```
 
 ---
 
@@ -28,14 +34,20 @@
 - 描述：获取所有表名
 - 参数：
   - config: 数据库连接配置
-- 返回：{ success: boolean, tables?: string[], message?: string }
+- 返回：
+```json
+{ "success": true, "tables": [], "message": "" }
+```
 
 ### get-table-schema
 - 描述：获取表结构和索引
 - 参数：
   - config: 数据库连接配置
   - table: string
-- 返回：{ success: boolean, columns?: any[], indexes?: any[], message?: string }
+- 返回：
+```json
+{ "success": true, "columns": [], "indexes": [], "message": "" }
+```
 
 ---
 
@@ -47,7 +59,10 @@
   - table: string
   - page: number
   - pageSize: number
-- 返回：{ success: boolean, rows?: any[], total?: number, message?: string }
+- 返回：
+```json
+{ "success": true, "rows": [], "total": 0, "message": "" }
+```
 
 ### update-table-row
 - 描述：更新表中一行数据
@@ -56,7 +71,10 @@
   - table: string
   - pk: 主键对象，如 { id: 1 }
   - data: 要更新的字段对象
-- 返回：{ success: boolean, message?: string }
+- 返回：
+```json
+{ "success": true, "message": "" }
+```
 
 ### delete-table-row
 - 描述：删除表中一行数据
@@ -64,7 +82,10 @@
   - config: 数据库连接配置
   - table: string
   - pk: 主键对象
-- 返回：{ success: boolean, message?: string }
+- 返回：
+```json
+{ "success": true, "message": "" }
+```
 
 ### insert-table-row
 - 描述：插入新行
@@ -72,7 +93,10 @@
   - config: 数据库连接配置
   - table: string
   - data: 字段对象
-- 返回：{ success: boolean, message?: string }
+- 返回：
+```json
+{ "success": true, "message": "" }
+```
 
 ---
 
@@ -83,14 +107,20 @@
   - config: 数据库连接配置
   - table: string
   - columns: 字段数组 [{ name, type, nullable, extra }]
-- 返回：{ success: boolean, message?: string }
+- 返回：
+```json
+{ "success": true, "message": "" }
+```
 
 ### drop-table
 - 描述：删除表
 - 参数：
   - config: 数据库连接配置
   - table: string
-- 返回：{ success: boolean, message?: string }
+- 返回：
+```json
+{ "success": true, "message": "" }
+```
 
 ---
 
@@ -99,20 +129,29 @@
 - 描述：导出当前数据库为SQL文件
 - 参数：
   - config: 数据库连接配置
-- 返回：{ success: boolean, filePath?: string, message?: string }
+- 返回：
+```json
+{ "success": true, "filePath": "", "message": "" }
+```
 
 ### restore-database
 - 描述：导入SQL文件恢复数据库
 - 参数：
   - config: 数据库连接配置
   - filePath: string
-- 返回：{ success: boolean, message?: string }
+- 返回：
+```json
+{ "success": true, "message": "" }
+```
 
 ### list-users
 - 描述：获取所有数据库用户
 - 参数：
   - config: 数据库连接配置
-- 返回：{ success: boolean, users?: any[], message?: string }
+- 返回：
+```json
+{ "success": true, "users": [], "message": "" }
+```
 
 ### set-user-privileges
 - 描述：设置用户权限
@@ -120,10 +159,16 @@
   - config: 数据库连接配置
   - user: string
   - privileges: string[]
-- 返回：{ success: boolean, message?: string }
+- 返回：
+```json
+{ "success": true, "message": "" }
+```
 
 ### get-performance-stats
 - 描述：获取数据库性能统计
 - 参数：
   - config: 数据库连接配置
-- 返回：{ success: boolean, stats?: any, message?: string }
+- 返回：
+```json
+{ "success": true, "stats": {}, "message": "" }
+```
