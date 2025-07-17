@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Layout, Typography, message } from 'antd';
 import ConnectionPage from './ConnectionPage';
+import { connectDatabase } from '../utils/ipc';
 
 const { Header, Content } = Layout;
 
@@ -8,13 +9,15 @@ const App: React.FC = () => {
   const [connected, setConnected] = useState(false);
   const [connectionConfig, setConnectionConfig] = useState<any>(null);
 
-  // 这里后续会调用后端API进行真实连接
   const handleConnect = async (config: any) => {
-    // TODO: 调用后端API验证连接
-    // 目前直接模拟成功
-    setConnectionConfig(config);
-    setConnected(true);
-    message.success('连接成功！');
+    const res = await connectDatabase(config);
+    if (res.success) {
+      setConnectionConfig(config);
+      setConnected(true);
+      message.success('连接成功！');
+    } else {
+      message.error(res.message || '连接失败');
+    }
   };
 
   return (

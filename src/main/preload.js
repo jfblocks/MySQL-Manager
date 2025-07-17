@@ -1,1 +1,5 @@
-// 预加载脚本，可用于主进程和渲染进程通信
+const { contextBridge, ipcRenderer } = require('electron');
+
+contextBridge.exposeInMainWorld('electron', {
+  invoke: ipcRenderer.invoke.bind(ipcRenderer)
+});
