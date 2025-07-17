@@ -1,13 +1,14 @@
 import React, { useEffect, useState } from 'react';
-import { Card, Table, Spin, message } from 'antd';
+import { Card, Table, Spin, message, Button } from 'antd';
 import { getTableSchema } from '../utils/ipc';
 
 interface Props {
   connectionConfig: any;
   table: string;
+  onShowData?: (pkField: string) => void;
 }
 
-const TableSchema: React.FC<Props> = ({ connectionConfig, table }) => {
+const TableSchema: React.FC<Props> = ({ connectionConfig, table, onShowData }) => {
   const [columns, setColumns] = useState<any[]>([]);
   const [indexes, setIndexes] = useState<any[]>([]);
   const [loading, setLoading] = useState(false);
@@ -25,9 +26,11 @@ const TableSchema: React.FC<Props> = ({ connectionConfig, table }) => {
     });
   }, [connectionConfig, table]);
 
+  const pkField = columns.find((col: any) => col.Key === 'PRI')?.Field;
+
   return (
     <Spin spinning={loading}>
-      <Card title={`表结构：${table}`} style={{ marginBottom: 16 }}>
+      <Card title={<span>表结构：{table} {pkField && onShowData && <Button size="small" onClick={() => onShowData(pkField)} style={{ marginLeft: 8 }}>查看数据</Button>}</span>} style={{ marginBottom: 16 }}>
         <Table
           dataSource={columns}
           columns={[
