@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
-import { Layout, Typography, message } from 'antd';
+import { Layout, message } from 'antd';
 import ConnectionPage from './ConnectionPage';
-import SqlQueryPage from './SqlQueryPage';
+import DatabasePage from './DatabasePage';
 import { connectDatabase } from '../utils/ipc';
 
 const { Header, Content } = Layout;
@@ -28,7 +28,7 @@ const App: React.FC = () => {
         {!connected ? (
           <ConnectionPage onConnect={handleConnect} />
         ) : (
-          <SqlQueryPage connectionConfig={connectionConfig} />
+          <DatabasePage connectionConfig={connectionConfig} />
         )}
       </Content>
     </Layout>
