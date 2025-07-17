@@ -1,4 +1,6 @@
 import mysql from 'mysql2/promise';
+import fs from 'fs';
+import { exec } from 'child_process';
 
 export async function connectToDatabase(config: {
   host: string;
@@ -123,4 +125,46 @@ export async function dropTable(config: any, table: string) {
   await connection.query(`DROP TABLE \`${table}\``);
   await connection.end();
   return true;
+}
+
+export async function backupDatabase(config: any, outFile: string) {
+  return new Promise((resolve, reject) => {
+    const cmd = `mysqldump -h${config.host} -P${config.port} -u${config.user} ${config.password ? `-p${config.password}` : ''} ${config.database} > ${outFile}`;
+    exec(cmd, (err) => {
+      if (err) reject(err);
+      else resolve(true);
+    });
+  });
+}
+
+export async function restoreDatabase(config: any, filePath: string) {
+  return new Promise((resolve, reject) => {
+    const cmd = `mysql -h${config.host} -P${config.port} -u${config.user} ${config.password ? `-p${config.password}` : ''} ${config.database} < ${filePath}`;
+    exec(cmd, (err) => {
+      if (err) reject(err);
+      else resolve(true);
+    });
+  });
+}
+
+export async function listUsers(config: any) {
+  const connection = await mysql.createConnection(config);
+  const [rows] = await connection.query('SELECT User, Host FROM mysql.user');
+  await connection.end();
+  return rows;
+}
+
+export async function setUserPrivileges(config: any, user: string, privileges: string[]) {
+  const connection = await mysql.createConnection(config);
+  await connection.query(`GRANT ${privileges.join(',')} ON *.* TO ?@'%'`, [user]);
+  await connection.end();
+  return true;
+}
+
+export async function getPerformanceStats(config: any) {
+  const connection = await mysql.createConnection(config);
+  const [status] = await connection.query('SHOW GLOBAL STATUS');
+  const [processlist] = await connection.query('SHOW PROCESSLIST');
+  await connection.end();
+  return { status, processlist };
 }
