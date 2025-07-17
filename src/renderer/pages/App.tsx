@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Layout, Typography, message } from 'antd';
 import ConnectionPage from './ConnectionPage';
+import SqlQueryPage from './SqlQueryPage';
 import { connectDatabase } from '../utils/ipc';
 
 const { Header, Content } = Layout;
@@ -27,7 +28,7 @@ const App: React.FC = () => {
         {!connected ? (
           <ConnectionPage onConnect={handleConnect} />
         ) : (
-          <Typography.Title level={2}>已连接到 {connectionConfig?.host}:{connectionConfig?.port}</Typography.Title>
+          <SqlQueryPage connectionConfig={connectionConfig} />
         )}
       </Content>
     </Layout>

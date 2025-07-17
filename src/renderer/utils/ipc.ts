@@ -2,3 +2,8 @@ export async function connectDatabase(config: any): Promise<{ success: boolean; 
   // @ts-ignore
   return await window.electron?.invoke('connect-database', config) || { success: false, message: 'IPC不可用' };
 }
+
+export async function executeQuery(config: any, sql: string): Promise<{ success: boolean; rows?: any[]; fields?: any[]; message?: string }> {
+  // @ts-ignore
+  return await window.electron?.invoke('execute-query', { config, sql }) || { success: false, message: 'IPC不可用' };
+}
