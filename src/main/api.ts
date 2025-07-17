@@ -1,5 +1,5 @@
 import { ipcMain } from 'electron';
-import { connectToDatabase, executeQuery, getTables, getTableSchema, getTableData, updateTableRow, deleteTableRow, insertTableRow, createTable, dropTable } from './database';
+import { connectToDatabase, executeQuery, getTables, getTableSchema, getTableData, updateTableRow, deleteTableRow, insertTableRow, createTable, dropTable, backupDatabase, restoreDatabase, listUsers, setUserPrivileges, getPerformanceStats } from './database';
 
 ipcMain.handle('connect-database', async (_event, config) => {
   try {
@@ -98,6 +98,51 @@ ipcMain.handle('drop-table', async (_event, { config, table }) => {
   try {
     await dropTable(config, table);
     return { success: true };
+  } catch (e: any) {
+    return { success: false, message: e.message };
+  }
+});
+
+ipcMain.handle('backup-database', async (_event, { config, outFile }) => {
+  try {
+    await backupDatabase(config, outFile);
+    return { success: true, filePath: outFile };
+  } catch (e: any) {
+    return { success: false, message: e.message };
+  }
+});
+
+ipcMain.handle('restore-database', async (_event, { config, filePath }) => {
+  try {
+    await restoreDatabase(config, filePath);
+    return { success: true };
+  } catch (e: any) {
+    return { success: false, message: e.message };
+  }
+});
+
+ipcMain.handle('list-users', async (_event, { config }) => {
+  try {
+    const users = await listUsers(config);
+    return { success: true, users };
+  } catch (e: any) {
+    return { success: false, message: e.message };
+  }
+});
+
+ipcMain.handle('set-user-privileges', async (_event, { config, user, privileges }) => {
+  try {
+    await setUserPrivileges(config, user, privileges);
+    return { success: true };
+  } catch (e: any) {
+    return { success: false, message: e.message };
+  }
+});
+
+ipcMain.handle('get-performance-stats', async (_event, { config }) => {
+  try {
+    const stats = await getPerformanceStats(config);
+    return { success: true, stats };
   } catch (e: any) {
     return { success: false, message: e.message };
   }
